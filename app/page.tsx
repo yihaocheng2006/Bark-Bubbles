@@ -233,7 +233,7 @@ export default function Home() {
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              className="flex h-14 items-center justify-center rounded-full bg-black px-8 text-lg font-medium text-white shadow-lg shadow-black/20 transition-colors hover:bg-zinc-800"
+              className="flex h-14 items-center justify-center rounded-full bg-black px-8 text-lg font-medium text-white shadow-lg shadow-black/20 transition-colors hover:bg-zinc-800 [font-family:var(--font-fredoka)]"
             >
               Book a Grooming
             </motion.div>
