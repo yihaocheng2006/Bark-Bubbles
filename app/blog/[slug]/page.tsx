@@ -58,6 +58,15 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+function getRelatedPosts(current: BlogPost, count = 3): BlogPost[] {
+  const others = blogPosts.filter((post) => post.slug !== current.slug);
+  const sameTag = others.filter((post) =>
+    post.tags.some((tag) => current.tags.includes(tag))
+  );
+  const rest = others.filter((post) => !sameTag.includes(post));
+  return [...sameTag, ...rest].slice(0, count);
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
@@ -67,6 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   const readingTime = getReadingTime(post);
+  const relatedPosts = getRelatedPosts(post);
 
   return (
     <>
@@ -182,6 +192,44 @@ export default async function BlogPostPage({ params }: Props) {
           })}
         </article>
       </section>
+
+      {relatedPosts.length > 0 && (
+        <section className="w-full bg-white px-8 pb-16 sm:px-16">
+          <div className="mx-auto w-full max-w-3xl border-t border-black/10 pt-10 lg:max-w-4xl">
+            <h2 className="text-2xl font-bold text-black [font-family:var(--font-fredoka)]">
+              Keep Reading
+            </h2>
+            <div className="mt-6 grid w-full grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-3">
+              {relatedPosts.map((related) => (
+                <article key={related.slug} className="flex flex-col">
+                  <Link
+                    href={`/blog/${related.slug}`}
+                    className="group block overflow-hidden rounded-xl"
+                  >
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+                      <Image
+                        src={related.coverImage}
+                        alt={related.coverImageAlt}
+                        fill
+                        sizes="(min-width: 640px) 33vw, 100vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  </Link>
+                  <span className="mt-3 text-xs font-semibold uppercase tracking-wide text-zinc-400 [font-family:var(--font-fredoka)]">
+                    {related.tags[0]}
+                  </span>
+                  <Link href={`/blog/${related.slug}`} className="mt-1">
+                    <h3 className="text-lg font-bold leading-snug text-[#c1440e] transition-colors hover:text-black [font-family:var(--font-fredoka)]">
+                      {related.title}
+                    </h3>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="w-full bg-[#fee199] px-8 py-16 sm:px-16">
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-4 rounded-2xl bg-white p-8 text-center shadow-sm sm:p-10">
