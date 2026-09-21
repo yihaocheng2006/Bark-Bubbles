@@ -261,7 +261,7 @@ export default function ContactClient() {
                       visible: { opacity: 1, x: 0 },
                     }}
                     className={`flex items-center justify-between gap-4 text-lg ${
-                      slot.time === "Closed" ? "text-zinc-400 italic" : "text-zinc-700"
+                      slot.time === "Closed" ? "text-zinc-500 italic" : "text-zinc-700"
                     }`}
                   >
                     <span className="font-medium text-black">{slot.day}</span>

@@ -21,6 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // TODO: replace with the real production domain before launch.
+  metadataBase: new URL("https://www.barkandbubbles.com"),
   title: "Bark & Bubbles | Dog Grooming Studio",
   description:
     "Gentle, professional dog grooming in Anytown — book a bath, trim, or full groom online.",

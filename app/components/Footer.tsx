@@ -6,7 +6,24 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-yellow-800 text-white">
+    <footer className="relative w-full bg-yellow-800 text-white">
+      <motion.div
+        initial={{ opacity: 0, rotate: 0 }}
+        whileInView={{ opacity: 0.55, rotate: -6 }}
+        viewport={{ once: true, amount: 0.5 }}
+        whileHover={{ opacity: 0.9, scale: 1.06, rotate: -4 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="absolute bottom-4 right-4 z-10 sm:bottom-6 sm:right-8"
+        title="Signed by the developer, like a little piece of art"
+      >
+        <Image
+          src="/signature.png"
+          alt="Hao's signature"
+          width={924}
+          height={1243}
+          className="h-14 w-auto select-none sm:h-16 [filter:brightness(0)_invert(1)]"
+        />
+      </motion.div>
       <div className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-10 px-8 py-16 sm:grid-cols-3 sm:px-16 lg:max-w-5xl xl:max-w-6xl">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2">

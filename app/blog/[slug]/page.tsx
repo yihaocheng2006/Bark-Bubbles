@@ -216,7 +216,7 @@ export default async function BlogPostPage({ params }: Props) {
                       />
                     </div>
                   </Link>
-                  <span className="mt-3 text-xs font-semibold uppercase tracking-wide text-zinc-400 [font-family:var(--font-fredoka)]">
+                  <span className="mt-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 [font-family:var(--font-fredoka)]">
                     {related.tags[0]}
                   </span>
                   <Link href={`/blog/${related.slug}`} className="mt-1">

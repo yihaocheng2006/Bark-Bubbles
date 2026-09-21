@@ -37,7 +37,7 @@ export default function BlogPostGrid({ posts }: { posts: BlogPost[] }) {
               className={`border-b-2 pb-1 transition-colors ${
                 active === category
                   ? "border-[#c1440e] text-[#c1440e]"
-                  : "border-transparent text-zinc-400 hover:text-black"
+                  : "border-transparent text-zinc-500 hover:text-black"
               }`}
             >
               {category}
@@ -62,7 +62,7 @@ export default function BlogPostGrid({ posts }: { posts: BlogPost[] }) {
                   />
                 </div>
               </Link>
-              <span className="mt-4 text-xs font-semibold uppercase tracking-wide text-zinc-400 [font-family:var(--font-fredoka)]">
+              <span className="mt-4 text-xs font-semibold uppercase tracking-wide text-zinc-500 [font-family:var(--font-fredoka)]">
                 {post.tags[0]}
               </span>
               <Link href={`/blog/${post.slug}`} className="mt-1">
