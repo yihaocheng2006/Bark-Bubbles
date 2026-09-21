@@ -2,20 +2,53 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getDurationMinutes, rangesOverlap, toMinutes } from "@/lib/appointment-availability";
+import {
+  isHoneypotTripped,
+  isNonEmptyString,
+  isValidDate,
+  isValidEmail,
+  isValidTime,
+} from "@/lib/validation";
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { name, email, phone, dogSize, date, time } = body as {
+  const body = await request.json().catch(() => null);
+
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
+  }
+
+  const { name, email, phone, dogSize, date, time, company } = body as {
     name?: string;
     email?: string;
     phone?: string;
     dogSize?: string;
     date?: string;
     time?: string;
+    company?: string; // honeypot field — must stay empty
   };
 
-  if (!name || !email || !phone || !dogSize || !date || !time) {
-    return NextResponse.json({ error: "missing_fields" }, { status: 400 });
+  if (isHoneypotTripped(company)) {
+    // Pretend success so bots don't learn the honeypot gave them away.
+    return NextResponse.json({ success: true });
+  }
+
+  if (!isNonEmptyString(name, 100)) {
+    return NextResponse.json({ error: "invalid_name" }, { status: 400 });
+  }
+  if (!isValidEmail(email)) {
+    return NextResponse.json({ error: "invalid_email" }, { status: 400 });
+  }
+  if (!isNonEmptyString(phone, 30)) {
+    return NextResponse.json({ error: "invalid_phone" }, { status: 400 });
+  }
+  if (!isNonEmptyString(dogSize, 50)) {
+    return NextResponse.json({ error: "invalid_dog_size" }, { status: 400 });
+  }
+  if (!isValidDate(date)) {
+    return NextResponse.json({ error: "invalid_date" }, { status: 400 });
+  }
+  if (!isValidTime(time)) {
+    return NextResponse.json({ error: "invalid_time" }, { status: 400 });
   }
 
   const supabase = createAdminClient();
